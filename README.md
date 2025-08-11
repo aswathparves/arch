@@ -1,48 +1,43 @@
 # arch
 ```mermaid
 graph TD
-
-  subgraph User
-    U1[User Device / Browser]
-  end
-
-  subgraph Application Layer
+  %% Presentation Layer
+  subgraph Presentation Layer
     FE[Frontend]
-    BE[Backend]
-    BEA[Backend - Alternate]
     APK[APK API]
   end
 
-  subgraph Services
+  %% Application Layer
+  subgraph Application Layer
+    BE[Backend]
+    BEA[Backend - Alternate]
     REP[Report Service]
     WAL[Wallet Service]
     PAY[Payment Gateway]
   end
 
-  subgraph Databases
+  %% Data Layer
+  subgraph Data Layer
     RDSI[RDS - Internal]
     RDSP[RDS - Public]
     MWI[MongoDB - Wallet Internal]
     MWP[MongoDB - Wallet Public]
     MSI[MongoDB - System Internal]
     MSP[MongoDB - System Public]
-  end
-
-  subgraph Cache
     RED[Redis]
     PRED[Promo Redis]
   end
 
-  %% Connections
-  U1 --> FE
+  %% Flow
   FE --> BE
   FE --> BEA
-  FE --> APK
-  BE --> WAL
-  BEA --> WAL
-  APK --> WAL
-  WAL --> PAY
+  APK --> BE
+  APK --> BEA
   BE --> REP
+  BE --> WAL
+  BE --> PAY
+  BEA --> WAL
+  WAL --> PAY
   BE --> RDSI
   BE --> RDSP
   WAL --> MWI
